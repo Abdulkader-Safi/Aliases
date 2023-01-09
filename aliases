@@ -1,0 +1,244 @@
+alias godot="~/Documents/GameEngine/Godot_v3.5-Stable/Godot"
+alias gDevelop="~/Documents/GameEngine/GDevelop-5-5.0.143.AppImage"
+alias weka="~/Documents/weka-3-8-6/weka.sh"
+alias palGen="~/Documents/GameEngine/PaletteGenerator/Palette_Generator_by_CoMiGo-linux_x64"
+alias btop="bashtop"
+alias CLEAR="clear"
+
+export EDITOR=nvim
+
+alias ipinfo="curl https://ipinfo.io/"
+
+# Vim and Nvim config
+alias v="vim"
+alias nv="nvim"
+alias nvconf="cd ~/.config/nvim"
+
+# Directorys
+alias uni="cd ~/Documents/UNI" 
+alias projects="cd ~/Documents/Project"
+alias programming="cd ~/Documents/Programming"  
+alias project="cd ~/Documents/Project"
+alias desktop="cd ~/Desktop"
+alias Downloads="cd ~/Downloads"
+
+#To open aliases
+alias srcz="source ~/.zshrc"
+alias srcb="source ~/.bashrc"
+
+alias nals="nvim ~/.aliases" # nvim
+alias cals="code ~/.aliases" # visual studio code
+alias sals="subl ~/.aliases" # sublime text
+
+alias nrcz="nvim ~/.zshrc" # nvim
+alias crcz="code ~/.zshrc" # visual studio code
+alias sbrcz="subl ~/.zshrc" # sublime text
+
+alias nrcb="nvim ~/.bashrc" # nvim
+alias crcb="code ~/.bashrc" # visual studio code
+alias sbrcb="subl ~/.bashrc" # sublime text
+
+#PHP
+alias runPHP="php -S localhost:8585 -t"
+alias laravel="composer create-project laravel/laravel"
+
+# adding flags
+alias df='df -h'
+alias free='free -m'
+
+#Install
+alias debi="sudo dpkg -i"
+alias debr="sudo dpkg -r"
+
+alias apti="sudo apt install"
+alias aptr="sudo apt purge"
+alias aptupd="sudo apt update"
+alias aptupg="sudo apt upgrade"
+
+alias nalai="sudo nala install"
+alias nalar="sudo nala purge"
+alias nalaupd="sudo nala update"
+alias nalaupg="sudo nala upgrade"
+
+alias snapi="sudo snap install"
+alias snapr="sudo snap remove"
+alias snapupdlist="sudo snap refresh --list"
+alias snapupd="sudo snap refresh"
+
+#File manegment
+alias ls="exa -al --color=auto --icons --group-directories-first"
+alias lt="ls --tree"
+alias la='exa -a | egrep "^\."'
+
+alias cp='cp -i'
+alias mv='mv -i'
+alias rm='rm -i'
+alias superRM='rm -rf'
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+
+#Git
+alias giti="git init"
+alias status="git status"
+alias clone="git clone"
+alias push="git push"
+alias add="git add"
+alias commit="git commit -m"
+alias pull="git pull"
+
+#Python
+alias python="python3"
+alias pip="pip3"
+
+alias pipReq="pip install -r requirements.txt"
+alias pipFreeze="pip freeze > requirements.txt"
+alias pipInstall="pip3 install"
+
+alias env="python3 -m venv env"
+alias envActivate="source ./env/bin/activate"
+
+function pva() {
+    # "Python Venv Activate"
+    if [ -d "${1}" ]; then
+        root="${1}"
+    else
+        root="$(pwd)"
+    fi
+    if [ -f "${root}/env/bin/activate" ]; then
+        . "${root}/env/bin/activate"
+    else
+        if [[ "${root}" == '/' ]]; then
+            # We've hit root, we can't search further
+            echo 'Could not find Python venv Activate file!' >&2
+            return 1
+        else
+            pva "$(dirname "${root}")"
+        fi
+    fi
+}
+
+function pvc() {
+    # Create and activate a new Python venv
+    version="3"
+    if [ $# -eq 1 ]; then
+        version="${1}"
+    fi
+    # Deactivate existing first!
+    if [ -d "${VIRTUAL_ENV}" ] && type deactivate >/dev/null 2>&1; then
+        deactivate
+    fi
+    # Use provided path (if given), then git root, then (finally) current directory
+    git_root="$(git rev-parse --show-toplevel)"
+    if [ -d "${1}" ]; then
+        root="${1}"
+    elif [ -d "${git_root}" ]; then
+        root="${git_root}"
+    else
+        root="$(pwd)"
+    fi
+    env_root="${root}/env"
+    if [ -d "${env_root}" ]; then
+        rm -r "${env_root}"
+    fi
+    python"${version}" -m venv "${env_root}"
+    pva "${root}"
+}
+
+
+#MySQL
+alias mySQL="mysql -u abdulkader -p"
+alias MySQL="mysql -u root -p"
+
+alias mySQLStatus="sudo systemctl status mysql"
+alias mySQLStart="sudo systemctl start mysql"
+alias mySQLRestart="sudo systemctl restart mysql"
+alias mySQLStop="sudo systemctl stop mysql"
+
+#Flutter
+alias newFlutter="flutter create --template app --overwrite ."
+alias runFlutter="flutter run"
+
+#Apache2
+alias apStatus="sudo systemctl status apache2"
+alias apStart="sudo systemctl start apache2"
+alias apRestart="sudo systemctl restart apache2"
+alias apStop="sudo systemctl stop apache2"
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+function path() {
+  test -n "$1" && {
+    echo $PATH | perl -p -e "s/:/\n/g;" | grep -i "$1"
+  } || {
+    echo $PATH | perl -p -e "s/:/\n/g;"
+  }
+}
+
+function extract() {
+  if [ -f $1 ]; then
+    case $1 in
+    *.tar.bz2) tar xjvf $1 ;;
+    *.tar.gz) tar xzvf $1 ;;
+    *.tar.xz) tar xvf $1 ;;
+    *.bz2) bzip2 -d $1 ;;
+    *.rar) unrar x $1 ;;
+    *.gz) gunzip $1 ;;
+    *.tar) tar xf $1 ;;
+    *.tbz2) tar xjf $1 ;;
+    *.tgz) tar xzf $1 ;;
+    *.zip) unzip $1 ;;
+    *.Z) uncompress $1 ;;
+    *.7z) 7z x $1 ;;
+    *.ace) unace x $1 ;;
+    *) echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+function up() {
+  local d=""
+  local limit="$1"
+
+  # Default to limit of 1
+  if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
+    limit=1
+  fi
+
+  for ((i = 1; i <= limit; i++)); do
+    d="../$d"
+  done
+
+  # perform cd. Show error if cd fails
+  if ! cd "$d"; then
+    echo "Couldn't go up $limit dirs."
+  fi
+}
+
+function playvlc() {
+  if [ -f $1 ]; then
+    case $1 in
+    *.avi) vlc $1 ;;
+    *.mov) vlc $1 ;;
+    *.mp4) vlc $1 ;;
+    *.wav) vlc $1 ;;
+    *.ogg) vlc $1 ;;
+    *.mp3) vlc $1 ;;
+    *) echo "cannot play ('$1') via vlc" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+if type rg &> /dev/null; then
+  export FZF_DEFAULT_COMMAND='rg --files'
+  export FZF_DEFAULT_OPTS='-m --height 50% --border'
+fi
+
+
+export PATH=$PATH:~/Downloads/ctags58/gnu_regex
